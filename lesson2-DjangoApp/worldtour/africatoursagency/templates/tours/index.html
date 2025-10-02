@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Africa Tours</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body>
+    <h1 class="text-2xl font-bold text-center my-4">
+      Africa Tours Schedule for december 2025!
+    </h1>
+    <table
+      class="table-auto w-full max-w-5xl mx-auto border border-gray-300 shadow-lg rounded-lg overflow-hidden"
+    >
+      <thead class="bg-blue-500 text-white">
+        <tr>
+          <th class="px-4 py-2 text-left">Id</th>
+          <th class="px-4 py-2 text-left">Origin Country</th>
+          <th class="px-4 py-2 text-left">Destination Country</th>
+          <th class="px-4 py-2 text-left">Number of nights</th>
+          <th class="px-4 py-2 text-left">Price per nights</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tour in tours %}
+        <tr
+          class="even:bg-gray-100 odd:bg-white hover:bg-blue-50 transition-colors"
+        >
+          <td class="border-t px-4 py-2">{{ tour.id }}</td>
+          <td class="border-t px-4 py-2">{{ tour.origin_country }}</td>
+          <td class="border-t px-4 py-2">{{ tour.destination_country }}</td>
+          <td class="border-t px-4 py-2">{{ tour.number_of_nights }}</td>
+          <td class="border-t px-4 py-2 font-semibold text-green-600">
+            ${{ tour.price }}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
