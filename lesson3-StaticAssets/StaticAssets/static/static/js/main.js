@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  alert("your js is running successfully!");
+  alert("your js is running successfully");
 });
 
 const hello = () => {
