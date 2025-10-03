@@ -1,11 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Static App</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}" />
+    <script src="{% static 'js/main.js' %}"></script>
   </head>
   <body>
-    <h1>Welcome to static</h1>
+    <div class="container">
+      <div class="img">
+        <img src="{% static 'images/logo.png' %}" alt="logo" />
+      </div>
+
+      <div class="info">
+        <h1>Welcome to django static</h1>
+        <p>
+          Django makes it easier to build better web apps more quickly and with
+          less code
+        </p>
+        <button onclick="hello()">Hello</button>
+      </div>
+    </div>
   </body>
 </html>
