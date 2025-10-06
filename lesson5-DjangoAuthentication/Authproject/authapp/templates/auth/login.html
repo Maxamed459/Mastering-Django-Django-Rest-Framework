@@ -1,0 +1,32 @@
+{% extends 'auth/layout.html' %}
+
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+    <h2 class="text-3xl font-bold text-blue-600 m-4">Login</h2>
+    <div class="max-w-xl mx-auto">
+
+    
+
+    <form class="bg-white border-1 rounded-md shadow-lg" action="{% url 'login' %}" method="post">
+        {% if error %}
+        <div><p class="bg-red-300 p-2 text-red-600">{{ error }}</p></div>
+    {% endif %}
+        {% csrf_token %}
+        <div class="grid gap-2 mb-4">
+            <label for="username">Username</label>
+            <input autofocus class="w-full p-2 rounded-md" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="grid gap-2 mb-4">
+            <label for="password">Password</label>
+            <input class="w-full p-2 rounded-md" type="password" name="password" placeholder="Password">
+        </div>
+        <button class="w-full rounded-md bg-blue-600 px-4 py-2 text-white" type="submit">Login</button>
+        Don't have an account? <a href="{% url 'register' %}">Register here.</a>
+    </form>
+
+    
+    </div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Welcome{% endblock %}</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        form {
+    max-width: 400px;
+    margin: 0 auto;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, alph0.1);
+    padding: 10px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 5px;
+    border: 1px solid #9f9f9f;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+    </style>
+</head>
+<body>
+    <header class="p-4 border-b-1 shadow-md flex items-center justify-between">
+        <img class="w-32" src="{% static 'images/sooyaalx.png' %}" alt="logo">
+        <nav>
+            <ul class="flex items-center gap-6 ">
+                <li><a href="#">about</a></li>
+                <li><a href="#">features</a></li>
+                <li><a href="#">services</a></li>
+                <li><a href="#">contact us</a></li>
+            </ul>
+        </nav>
+    </header>
+    {% block body %}
+    {% endblock %}
+</body>
+</html>
