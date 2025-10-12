@@ -2,7 +2,7 @@ from .models import Book
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import BookSerializer
-from rest_framework import generics
+from rest_framework import generics, mixins
 from django.shortcuts import get_object_or_404
 
 # @api_view(["GET"])
@@ -80,6 +80,19 @@ book_delete_view = BookDestroyAPIView.as_view()
 class BookListAPIView(generics.ListAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+
+
+class ProductMixinView(
+    mixins.ListModelMixin,
+    generics.GenericAPIView
+    ):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+product_mixin_view = ProductMixinView.as_view()
 
 @api_view(['GET', 'POST'])
 def book_alt_view(request, pk=None, *args, **kwargs):
