@@ -34,11 +34,7 @@ from django.shortcuts import get_object_or_404
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-<<<<<<< HEAD
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-=======
     permission_classes = [permissions.DjangoModelPermissions]
->>>>>>> 26b738da6066306d04614e2f2cee3ce95976cfb2
 
     def perform_create(self, serializer):
         print(serializer)
