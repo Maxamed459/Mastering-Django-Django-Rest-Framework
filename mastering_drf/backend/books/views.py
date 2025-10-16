@@ -2,8 +2,9 @@ from .models import Book
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import BookSerializer
-from rest_framework import generics, mixins, permissions
+from rest_framework import generics, mixins, permissions, authentication
 from django.shortcuts import get_object_or_404
+from .permissions import isStaffEditOrView
 
 # @api_view(["GET"])
 # def get_books_view(request, *args, **kwargs):
@@ -34,7 +35,8 @@ from django.shortcuts import get_object_or_404
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.DjangoModelPermissions]
+    authentication_classes = [authentication.SessionAuthentication]
+    permission_classes = [permissions.IsAdminUser ,isStaffEditOrView] 
 
     def perform_create(self, serializer):
         print(serializer)
