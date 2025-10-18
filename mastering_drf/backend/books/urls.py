@@ -1,7 +1,9 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
+    
     path('', views.list_create_book_view), # listing books using generics.GenericAPIView mixins.ListModelMixin
     path('<int:pk>/update', views.book_update_view),
     path('<int:pk>/delete', views.book_delete_view),
