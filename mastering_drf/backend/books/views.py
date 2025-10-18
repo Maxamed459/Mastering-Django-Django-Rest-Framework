@@ -2,10 +2,10 @@ from .models import Book
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import BookSerializer
-from rest_framework import generics, mixins, permissions, authentication
+from rest_framework import generics, mixins, permissions
 from django.shortcuts import get_object_or_404
-from .permissions import isStaffEditOrView
-
+from api.permissions import isStaffEditOrView
+from api.mixins import IsStaffOrReadOnlyMixin
 # @api_view(["GET"])
 # def get_books_view(request, *args, **kwargs):
 #     """
@@ -32,11 +32,11 @@ from .permissions import isStaffEditOrView
 #     return Response({"success": "false", "message": "Invalid Data or missing required fields"}, status=400)
 
 
-class BookListCreateAPIView(generics.ListCreateAPIView):
+class BookListCreateAPIView(
+    IsStaffOrReadOnlyMixin,
+    generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser ,isStaffEditOrView] 
 
     def perform_create(self, serializer):
         print(serializer)
@@ -52,16 +52,22 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
 
 list_create_book_view = BookListCreateAPIView.as_view()
 
-class BookDetailAPIView(generics.RetrieveAPIView):
+class BookDetailAPIView(
+    IsStaffOrReadOnlyMixin,
+    generics.RetrieveAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAdminUser ,isStaffEditOrView] 
     # lookup_field pk
 
 book_detail_view = BookDetailAPIView.as_view()
 
-class BookUpdateAPIView(generics.UpdateAPIView):
+class BookUpdateAPIView(
+    IsStaffOrReadOnlyMixin,
+    generics.UpdateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAdminUser ,isStaffEditOrView] 
     lookup_field = 'pk'
 
     def perform_update(self, serializer):
@@ -69,9 +75,12 @@ class BookUpdateAPIView(generics.UpdateAPIView):
 
 book_update_view = BookUpdateAPIView.as_view()
 
-class BookDestroyAPIView(generics.DestroyAPIView):
+class BookDestroyAPIView(
+    IsStaffOrReadOnlyMixin,
+    generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    permission_classes = [permissions.IsAdminUser ,isStaffEditOrView] 
     lookup_field = 'pk'
 
     def perform_delete(self, instance):
