@@ -1,9 +1,24 @@
 import requests
+from getpass import getpass
 
-endpoint = "http://localhost:8000/api/books"
 
+auth_endpoint = "http://localhost:8000/api/auth"
 
-response_data = requests.get(endpoint)
+username = input("Enter your username\n")
+password = getpass("Enter your username\n")
+
+auth_response_data = requests.post(auth_endpoint, json={'username': username, 'password': password})
+# print(auth_response_data.json())
+
+if auth_response_data.status_code == 200:
+    token = auth_response_data.json()['token']
+    headers = {
+        "Authorization": f"Bearer {token}"
+    }
+    endpoint = "http://localhost:8000/api/books"
+    response_data = requests.get(endpoint, headers=headers)
+    print(response_data.json())
+# print(auth_response_data.status_code)
 
 # print(response_data.status_code)
 # datas = response_data.json()
@@ -13,5 +28,5 @@ response_data = requests.get(endpoint)
 #         f"the ISBN is {data['ISBN']}, the price is {data['price']}, "
 #         f"you got {data['discount']} off and you will pay {data['sale_price']}."
 #     )
-print(response_data.json())
+
 # print(response_data.status_code)

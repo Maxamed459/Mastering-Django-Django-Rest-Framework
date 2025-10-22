@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')), # localhost:8000/api/
     path('api/books/', include('books.urls')),
+    path('api/v2/', include('drf1.routers')),
 ]
+  
