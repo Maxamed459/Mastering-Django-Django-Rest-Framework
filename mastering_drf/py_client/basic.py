@@ -15,8 +15,11 @@ data = {
     #     "price": 12.99
     # },
     
+headers = {
+    "Authorization": f"Bearer 3e58eee350c07c62043c745166a9cb6d3ce839af"
+}
 
-response_data = requests.post(endpoint, json=data)
+response_data = requests.post(endpoint, json=data, headers=headers)
 
 # print(response_data.status_code)
 print(response_data.json())
