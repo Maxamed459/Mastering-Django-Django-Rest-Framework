@@ -5,7 +5,10 @@ from .serializers import BookSerializer
 from rest_framework import generics, mixins, permissions
 from django.shortcuts import get_object_or_404
 from api.permissions import isStaffEditOrView
-from api.mixins import IsStaffOrReadOnlyMixin
+from api.mixins import (
+    UserQuerySetMixin,
+    IsStaffOrReadOnlyMixin
+)
 # @api_view(["GET"])
 # def get_books_view(request, *args, **kwargs):
 #     """
@@ -33,13 +36,15 @@ from api.mixins import IsStaffOrReadOnlyMixin
 
 
 class BookListCreateAPIView(
+    UserQuerySetMixin,
     IsStaffOrReadOnlyMixin,
     generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
+    # user_field = 'user'
 
     def perform_create(self, serializer):
-        print(serializer)
+        # print(serializer)
         # serializer.save(user=self.request.user)
         title = serializer.validated_data.get('title')
         author = serializer.validated_data.get('author')
@@ -48,11 +53,20 @@ class BookListCreateAPIView(
         sale_price = serializer.validated_data.get('sale_price') or None
         if author is None:
             author = title
-        serializer.save()
+        serializer.save(user = self.request.user, author = author)
+
+    # def get_queryset(self, *args, **kwargs):
+    #     qs = super().get_queryset(*args, **kwargs)
+    #     request = self.request
+    #     user = request.user
+    #     if not user.is_authenticated:
+    #         return Book.objects.none()
+    #     return qs.filter(user = request.user)
 
 list_create_book_view = BookListCreateAPIView.as_view()
 
 class BookDetailAPIView(
+    UserQuerySetMixin,
     IsStaffOrReadOnlyMixin,
     generics.RetrieveAPIView):
     queryset = Book.objects.all()
@@ -63,6 +77,7 @@ class BookDetailAPIView(
 book_detail_view = BookDetailAPIView.as_view()
 
 class BookUpdateAPIView(
+    UserQuerySetMixin,
     IsStaffOrReadOnlyMixin,
     generics.UpdateAPIView):
     queryset = Book.objects.all()
@@ -76,6 +91,7 @@ class BookUpdateAPIView(
 book_update_view = BookUpdateAPIView.as_view()
 
 class BookDestroyAPIView(
+    UserQuerySetMixin,
     IsStaffOrReadOnlyMixin,
     generics.DestroyAPIView):
     queryset = Book.objects.all()
