@@ -20,6 +20,7 @@ class BookSerializer(serializers.ModelSerializer):
             'author',
             'ISBN',
             'price',
+            'published',
             'sale_price',
             'discount'
         ]
