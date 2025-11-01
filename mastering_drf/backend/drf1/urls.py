@@ -22,5 +22,6 @@ urlpatterns = [
     path('api/', include('api.urls')), # localhost:8000/api/
     path('api/books/', include('books.urls')),
     path('api/v2/', include('drf1.routers')),
+    path('api/search', include('search.urls')),
 ]
   
