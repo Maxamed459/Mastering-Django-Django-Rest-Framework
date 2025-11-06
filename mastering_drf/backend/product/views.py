@@ -4,27 +4,27 @@ from rest_framework.response import Response
 from .models import Product, Order, OrderItem
 from .serializers import ProductSerializer, OrderSerializer
 from django.shortcuts import get_object_or_404
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
 
-@api_view(["GET"])
-def product_list(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response({
-        "data": serializer.data
-    })
+class ListProductAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-@api_view(["GET"])
-def product_detail(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    serializer = ProductSerializer(product)
-    return Response({
-        "data": serializer.data
-    })
+class RetrieveProductAPIView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
-@api_view(["GET"])
-def order_list(request):
-    orders = Order.objects.prefetch_related("items__product")
-    serializer = OrderSerializer(orders, many=True)
-    return Response({
-        "data": serializer.data
-    })
+class OrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related("items__product")
+    serializer_class = OrderSerializer
+
+class UserOrderListAPIView(generics.ListAPIView):
+    queryset = Order.objects.prefetch_related("items__product")
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    # only returns the current user orders only
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(user=self.request.user)
+
