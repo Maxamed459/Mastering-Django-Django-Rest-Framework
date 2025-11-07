@@ -1,0 +1,25 @@
+GET http://localhost:8000/api/product/products/ HTTP/1.1
+
+###
+
+
+POST http://localhost:8000/api/product/products/
+
+
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYyNTQzNjI4LCJpYXQiOjE3NjI1NDMzMjgsImp0aSI6ImViNjY0MTFhOWE2MzQ0MmU4MzAzYjVmMjQyM2ZlM2RhIiwidXNlcl9pZCI6IjIifQ.0PKUNMfF5OVkB77h1to67SQ6r3YXKQLp5fsUPW2QVGU
+Content-Type: application/json
+{
+    "name": "Coffee Cup",
+      "description": "Rerum fugiat asperiores amet quae labore accusantium eaque ipsa, provident quod quia quasi tempore ut rem dicta ipsum? Cum aspernatur fuga nesciunt.",
+      "price": "10.99",
+      "stock": 3
+}
+
+###
+POST http://localhost:8000/api/token/
+Content-Type: application/json
+
+{
+    "username": "maxamed",
+    "password": "maxamed_123"
+}
