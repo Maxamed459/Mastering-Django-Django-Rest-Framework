@@ -24,5 +24,4 @@ class UserOrderTest(TestCase):
 
     def test_user_order_list_unauthenticated(self):
         response = self.client.get(reverse("user-orders"))
-        print(response)
-        # self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 401)
