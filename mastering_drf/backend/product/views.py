@@ -2,14 +2,25 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Product, Order, OrderItem
-from .serializers import ProductSerializer, OrderSerializer
+from .serializers import ProductSerializer, OrderSerializer, ProductInfoSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import (IsAuthenticated, IsAdminUser, AllowAny)
+from rest_framework.views import APIView
+from django.db.models import Max
 
-class ListProductAPIView(generics.ListAPIView):
+
+class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method == "POST":
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
+
 
 class RetrieveProductAPIView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
@@ -28,3 +39,13 @@ class UserOrderListAPIView(generics.ListAPIView):
         qs = super().get_queryset()
         return qs.filter(user=self.request.user)
 
+class ProductInfoAPIView(APIView):
+    def get(self, request):
+        products = Product.objects.all()
+        serializer = ProductInfoSerializer({
+            "Products": products,
+            "count": len(products),
+            "max_price": products.aggregate(max_price=Max("price"))["max_price"]
+        })
+        return Response(serializer.data)
+        
