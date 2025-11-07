@@ -5,3 +5,4 @@ requests
 django-cors-headers
 pillow
 django-silk
+djangorestframework-simplejwt
