@@ -8,11 +8,14 @@ from rest_framework import generics
 from rest_framework.permissions import (IsAuthenticated, IsAdminUser, AllowAny)
 from rest_framework.views import APIView
 from django.db.models import Max
+# from api.filters import ProductFilter
+from api.filters import ProductFilter
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+    filterset_class = ProductFilter
 
 
     def get_permissions(self):
@@ -26,6 +29,12 @@ class RetrieveProductAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_url_kwarg = "product_id"
+
+    def get_permissions(self):
+        self.permission_classes = [AllowAny]
+        if self.request.method in ["PUT", "PATCH", "DELETE"]:
+            self.permission_classes = [IsAdminUser]
+        return super().get_permissions()
 
 class OrderListAPIView(generics.ListAPIView):
     queryset = Order.objects.prefetch_related("items__product")
