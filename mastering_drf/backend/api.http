@@ -2,9 +2,17 @@ GET http://localhost:8000/api/product/products/ HTTP/1.1
 
 ###
 
-PUT   http://localhost:8000/api/product/products/7/ HTTP/1.1
+GET http://localhost:8000/api/product/products/2/ HTTP/1.1
+
+###
+
+DELETE  http://localhost:8000/api/product/products/2/ HTTP/1.1
+
+###
+
+PUT http://localhost:8000/api/product/products/2/ HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDc5NjA4LCJpYXQiOjE3NjM0NzkzMDgsImp0aSI6ImYxMzkxOGFlOGZiYjRkYmJhODU3ODU2ODhlYmI0OTZmIiwidXNlcl9pZCI6IjIifQ.w2Qt8jrPrZl3xMyDN_kgYvHW87Ugw6mFgKOwQNbCRKY
+
 {
     "name": "Coffee Cup (One Time)",
     "description": "Rerum fugiat asperiores amet quae labore accusantium eaque ipsa, provident quod quia quasi tempore ut rem dicta ipsum? Cum aspernatur fuga nesciunt.",
@@ -16,12 +24,14 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiY
 ###
 
 POST http://localhost:8000/api/product/products/
-Header {
-    "Content-Type": "application/json",
-    "Authorization": Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzYzNDc5NjA4LCJpYXQiOjE3NjM0NzkzMDgsImp0aSI6ImYxMzkxOGFlOGZiYjRkYmJhODU3ODU2ODhlYmI0OTZmIiwidXNlcl9pZCI6IjIifQ.w2Qt8jrPrZl3xMyDN_kgYvHW87Ugw6mFgKOwQNbCRKY
-}
+# headers: {
+#     "Content-Type": "application/json",
+#     "Authorization": Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3NDQ5OTAxLCJpYXQiOjE3Njc0NDk2MDEsImp0aSI6Ijc0NTM2ODRlYTAyYTRmYmRhMzgzZTA1ZjIwMmZjMTgzIiwidXNlcl9pZCI6IjIifQ.FkeDYCd5boVb30n-kdEZnKd4WCakX0RwRQgUivUBHrY
+# }
 
 Content-Type: application/json
+Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzY3NDUwMDMxLCJpYXQiOjE3Njc0NDk3MzEsImp0aSI6IjRmOTA2MTUwNDQ0YjRjYjk5N2IxM2ZiOWMyYjMwZWUwIiwidXNlcl9pZCI6IjIifQ.Sy3fHa9AIyDBkLAIxEt72wzk7ibdaXcXSwrV4vgoA-I
+
 {
     "name": "Coffee Cup",
       "description": "Rerum fugiat asperiores amet quae labore accusantium eaque ipsa, provident quod quia quasi tempore ut rem dicta ipsum? Cum aspernatur fuga nesciunt.",
