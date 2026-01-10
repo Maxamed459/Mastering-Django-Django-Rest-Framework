@@ -1,2 +1,5 @@
 .venv
 backend/db.sqlite3
+mastering_drf/backend/api/__pycache__/
+mastering_drf/backend/drf1/__pycache__/
+mastering_drf/backend/product/__pycache__/
