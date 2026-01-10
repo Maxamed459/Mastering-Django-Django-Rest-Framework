@@ -1,5 +1,5 @@
 import django_filters
-from product.models import Product
+from product.models import Product, Order
 from rest_framework import filters
 
 
@@ -15,3 +15,11 @@ class ProductFilter(django_filters.FilterSet):
             'price': ['exact', 'gt', 'lt', 'range']
         }
         
+class OrderFilter(django_filters.FilterSet):
+    created_at = django_filters.DateFilter('created_at__date')
+    class Meta:
+        model = Order
+        fields = {
+            'status': ['exact'],
+            'created_at': ['exact', 'gt' ,'lt']
+        }
