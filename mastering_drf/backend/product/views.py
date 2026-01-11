@@ -54,7 +54,12 @@ class orderViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
 
-    @action(detail=False, methods=['get'], url_path='user-orders')
+    @action(
+            detail=False,
+            methods=['get'],
+            url_path='user-orders',
+            permission_classes=[IsAuthenticated]
+        )
     def user_orders(self, request):
         orders = self.get_queryset().filter(user=request.user)
         serializer = self.get_serializer(orders, many=True)
