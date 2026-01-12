@@ -22,12 +22,46 @@ class OrderItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = OrderItem
         fields = (
+            # 'pk',
             "product_name",
             "product_price",
             "quantity",
             "item_subtotal"
         )
 
+
+class OrderCreateSerializer(serializers.ModelSerializer):
+    class OrderItemCreateSerializer(serializers.ModelSerializer):
+        class Meta:
+            model = OrderItem
+            fields = (
+                'product',
+                'quantity'
+            )
+    
+    def create(self, validated_data):
+        orderItem_data = validated_data.pop('items')
+        order = Order.objects.create(**validated_data)
+
+        for item in orderItem_data:
+            OrderItem.objects.create(order=order, **item)
+
+        return order
+    
+    order_id = serializers.UUIDField(read_only=True)
+    items = OrderItemCreateSerializer(many=True)
+    class Meta:
+        model = Order
+        fields = (
+            'order_id',
+            'user',
+            'status',
+            'items',
+        )
+        extra_kwargs = {
+            'user': {'read_only': True}
+        }
+        
 
 class OrderSerializer(serializers.ModelSerializer):
     order_id = serializers.UUIDField(read_only=True)
