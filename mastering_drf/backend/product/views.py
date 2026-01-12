@@ -12,7 +12,7 @@ from api.filters import ProductFilter, inStockFilterBackend, OrderFilter
 
 from .models import Order, OrderItem, Product
 from .serializers import (OrderSerializer, ProductInfoSerializer,
-                          ProductSerializer)
+                          ProductSerializer, OrderCreateSerializer)
 
 
 class ProductListCreateAPIView(generics.ListCreateAPIView):
@@ -50,25 +50,23 @@ class RetrieveProductAPIView(generics.RetrieveUpdateDestroyAPIView):
 class orderViewSet(viewsets.ModelViewSet):
     queryset = Order.objects.prefetch_related("items__product")
     serializer_class = OrderSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_class = OrderFilter
 
-    @action(
-            detail=False,
-            methods=['get'],
-            url_path='user-orders',
-            permission_classes=[IsAuthenticated]
-        )
-    def user_orders(self, request):
-        orders = self.get_queryset().filter(user=request.user)
-        serializer = self.get_serializer(orders, many=True)
-        return Response(serializer.data)
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == 'create':
+            return OrderCreateSerializer
+        return super().get_serializer_class()
 
-    # def list(self, request, *args, **kwargs):
-    #     queryset = self.filter_queryset(self.get_queryset())
-    #     return queryset.filter(user=request.user)
+    def get_queryset(self):
+        qs = super().get_queryset()
+        if not self.request.user.is_staff:
+            qs = qs.filter(user=self.request.user)
+        return qs
 
 # class OrderListAPIView(generics.ListAPIView):
 #     queryset = Order.objects.prefetch_related("items__product")
