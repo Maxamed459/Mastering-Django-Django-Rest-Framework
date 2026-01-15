@@ -3,3 +3,4 @@ backend/db.sqlite3
 backend/api/__pycache__/
 backend/drf1/__pycache__/
 backend/product/__pycache__/
+backend/product/migrations/__pycache__/
