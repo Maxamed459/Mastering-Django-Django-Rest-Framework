@@ -22,16 +22,16 @@ class Product(models.Model):
 
 class Order(models.Model):
     class StatusChoices(models.TextChoices):
-        PENDING = "pending"
-        CONFIRMED = "confirmed"
-        CANCELED = "canceled"
+        PENDING = "Pending"
+        CONFIRMED = "Confirmed"
+        CANCELED = "Canceled"
 
     order_id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
         max_length=10,
-        choices=StatusChoices.choices,
+        choices=StatusChoices,
         default=StatusChoices.PENDING
     )
     products = models.ManyToManyField(Product, through="OrderItem", related_name="orders")
